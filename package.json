@@ -1,0 +1,43 @@
+{
+  "name": "queen-remote",
+  "version": "0.1.1",
+  "description": "Rule browsers remotely, remotely",
+  "main": "index.js",
+  "dependencies": {
+    "node-uuid": "~1.3.3",
+    "underscore": "~1.3.3",
+    "precondition": "~1.0.0",
+    "json-over-tcp": "~0.2.0"
+  },
+  "optionalDependencies": {
+    "winston": "~0.6.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ozanturgut/queen-remote.git"
+  },
+  "keywords": [
+    "browser",
+    "runner",
+    "distributed",
+    "js",
+    "javascript",
+    "queen",
+    "controller",
+    "remote-execution",
+    "remote",
+    "test-runner",
+    "test",
+    "remote",
+    "parallel",
+    "browser"
+  ],
+  "author": {
+    "name": "Ozan Turgut",
+    "email": "ozanturgut@gmail.com"
+  },
+  "license": "BSD"
+}
