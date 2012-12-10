@@ -11,11 +11,12 @@ var pingPongExample = function(queen){
 	};
 
 	var workforce = queen({
-		scriptPath: 'http://192.168.0.105/ping.js',
+		scriptPath: 'http://localhost/example/ping.js',
 		populate: "continuous",
 		stop: function(){
 			console.log("Waiting for someone to connect...");
 		},
+		killOnStop: false,
 		handler: workerHandler
 	});
 };

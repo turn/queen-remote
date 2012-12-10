@@ -7,14 +7,15 @@ var chanceExample = function(queen){
 		maxNumber = 1000,
 		numberToFind = 42,
 		workforce = queen({
-			scriptPath: 'http://192.168.0.105/chance.js',
+			scriptPath: 'http://localhost/example/chance.js',
 			populate: "continuous",
 			handler: function(worker){
 				worker(maxNumber);
 			},
 			stop: function(){
 				console.log('Waiting for workers to connect...');
-			}
+			},
+			killOnStop: false
 		});
 
 
