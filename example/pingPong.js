@@ -1,6 +1,6 @@
 var winston = require("winston"),
 	logger = new (winston.Logger)({transports: [new (winston.transports.Console)({level: 'info'}) ]}),
-	createQueen = require("../").queen.create;
+	createQueenClient = require("../").client;
 
 var pingPongExample = function(queen){
 	var workerHandler = function(worker){
@@ -21,4 +21,4 @@ var pingPongExample = function(queen){
 	});
 };
 
-createQueen(pingPongExample);
+createQueenClient(pingPongExample);

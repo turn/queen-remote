@@ -1,6 +1,6 @@
 var winston = require("winston"),
 	logger = new (winston.Logger)({transports: [new (winston.transports.Console)({level: 'info'}) ]}),
-	createQueen = require("../").queen.create;
+	createQueenClient = require("../").client;
 
 var chanceExample = function(queen){
 	var startTime = (new Date()).getTime(),
@@ -18,17 +18,17 @@ var chanceExample = function(queen){
 			killOnStop: false
 		});
 
-
 	workforce.on('message', function(number, worker){
-		console.log(number + " (" + worker.provider.attributes.name + ")");
+		console.log(number + " [" + worker.provider.attributes.name + "]");
 		if(number === 42){
 			var endTime = (new Date()).getTime(),
 				secondsToComplete = (endTime - startTime) / 1000;
 
 			console.log('Done! That took ' + secondsToComplete + " seconds. The winner was " + worker.provider.attributes.name);
 			workforce.kill();
+			process.exit(0);
 		}
 	});
 };
 
-createQueen(chanceExample);
+createQueenClient(chanceExample);

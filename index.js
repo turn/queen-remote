@@ -1,3 +1,2 @@
-exports.queen = require('./lib/queen.js');
-exports.workerProvider = require('./lib/workerProvider.js');
-exports.workforce = require('./lib/workforce.js');
+exports.server = require('./lib/server/server.js');
+exports.client = require('./lib/client/queen.js');
