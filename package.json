@@ -9,6 +9,8 @@
     "json-over-tcp": "~0.2.0"
   },
   "optionalDependencies": {
+    "mocks": "~0.0.10",
+    "sinon": "~1.5.2",
     "winston": "~0.6.2"
   },
   "scripts": {
