@@ -1,41 +1,19 @@
 var sinon = require('sinon'),
 	mocks = require('mocks'),
 	path = require('path'),
-	EventEmitter = require('events').EventEmitter,
+	mock = require('../mocks.js'),
 	testedModule = mocks.loadFile(path.resolve(path.dirname(module.filename), '../../lib/server/clientQueen.js'));
 
 var ClientQueen = testedModule.ClientQueen;
 var create = testedModule.create;
 var MESSAGE_TYPE = testedModule.MESSAGE_TYPE;
 
-var createMockQueen = function(){
-	var mock = sinon.spy();
-	
-	var eventEmitter = mock.emitter = new EventEmitter();
-	mock.on = sinon.spy(eventEmitter.on.bind(eventEmitter));
-	mock.removeListener = sinon.spy(eventEmitter.removeListener.bind(eventEmitter));
-	mock.kill = sinon.spy(function(){eventEmitter.emit('dead')});
-	mock.workerProviders = [];
-
-	return mock;
-};
-
-var createMockSocket = function(){
-	var socket = {};
-	var eventEmitter = socket.emitter = new EventEmitter();
-	socket.on = eventEmitter.on.bind(eventEmitter);
-	socket.removeListener = eventEmitter.removeListener.bind(eventEmitter);
-	socket.write = sinon.spy();
-
-	return socket;
-};
-
 exports.clientQueen = {
 	setUp: function(callback){
 		this.TEST_STRING = "Hello, world!";
 		this.TEST_OBJECT = {message: this.TEST_STRING};
-		this.socket = createMockSocket();
-		this.queen = createMockQueen();
+		this.socket = mock.socket();
+		this.queen = mock.queen();
 		this.clientQueen = new ClientQueen(this.socket, this.queen);
 		callback();
 	},
@@ -118,24 +96,29 @@ exports.clientQueen = {
 
 		test.done();
 	},
-	workforceOnSendToSocket: function(test){
-		// TODO
-		test.done();
-	},
 	workforceDeath: function(test){
-		// TODO
+		this.clientQueen.createWorkforce(1, {});
+		this.clientQueen.workforces["1"].kill();
+
+		test.ok(this.clientQueen.workforces["1"] === void 0);
 		test.done();
 	},
 	workerProviderHandler: function(test){
-		// TODO
-		test.done();
-	},
-	workerProviderHandlerOnSendToSocket: function(test){
-		// TODO
+		var mockWP = mock.workerProvider();
+		this.clientQueen.workerProviderHandler(mockWP);
+		test.ok(this.socket.write.calledWith([
+			MESSAGE_TYPE['create worker provider'],
+			mockWP.id,
+			mockWP.attributes
+		]));
 		test.done();
 	},
 	workerProviderDeath: function(test){
-		// TODO
+		var mockWP = mock.workerProvider();
+		this.clientQueen.workerProviderHandler(mockWP);
+		mockWP.kill();
+
+		test.ok(this.clientQueen.workerProviders[mockWP.id] === void 0);
 		test.done();
 	},
 	kill: function(test){

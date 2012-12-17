@@ -15,7 +15,7 @@ module.exports = function(grunt) {
     pkg: '<json:package.json>',
     files: {
       test: {
-        all: ['./test/**/*.js']
+        all: ['./test/server/**/*.js','./test/client/**/*.js',]
       },
     },
     test: {
