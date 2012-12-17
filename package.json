@@ -1,6 +1,6 @@
 {
   "name": "queen-remote",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Rule browsers remotely, remotely",
   "main": "index.js",
   "dependencies": {
@@ -14,7 +14,7 @@
     "winston": "~0.6.2"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "grunt test"
   },
   "repository": {
     "type": "git",
