@@ -1,6 +1,6 @@
 {
   "name": "queen-remote",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Rule browsers remotely, remotely",
   "main": "index.js",
   "dependencies": {
