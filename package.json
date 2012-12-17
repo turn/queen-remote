@@ -8,7 +8,8 @@
     "precondition": "~1.0.0",
     "json-over-tcp": "~0.2.0"
   },
-  "optionalDependencies": {
+  "devDependencies": {
+    "grunt": "~0.3.15",
     "mocks": "~0.0.10",
     "sinon": "~1.5.2",
     "winston": "~0.6.2"
