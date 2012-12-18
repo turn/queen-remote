@@ -32,6 +32,7 @@ exports.socket = function(){
 	socket.removeListener = eventEmitter.removeListener.bind(eventEmitter);
 	socket.write = sinon.spy();
 	socket.connect = sinon.spy();
+	socket.end = sinon.spy();
 	return socket;
 };
 
