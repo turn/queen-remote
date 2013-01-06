@@ -23,7 +23,7 @@
     "url": "https://github.com/ozanturgut/queen-remote.git"
   },  
   "bin": {
-    "queen": "./bin/queen"
+    "queen": "./bin/queen-remote"
   },
   "keywords": [
     "browser",
