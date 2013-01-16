@@ -19,6 +19,8 @@ workforce.on('message', function(number, worker){
 		var endTime = (new Date()).getTime();
 		var secondsToComplete = (endTime - startTime) / 1000;
 		console.log('Done! That took ' + secondsToComplete + " seconds. The winner was " + worker.provider.attributes.name);
-		process.exit(0);
+		setTimeout(function(){
+			process.exit(0);	
+		},1);
 	}
 });
