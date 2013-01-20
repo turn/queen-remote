@@ -4,75 +4,40 @@ var app = require('commander'),
 	path = require('path'),
 	vm = require('vm'),
 	utils = require('../lib/utils.js'),
-	fs = require('fs');
+	fs = require('fs'),
+	queenRunner = require('../lib/client/runner.js'),
+	appConfig = require('../package.json');
 
-var getExternalIpAddress = function(){
-	var interfaces = require('os').networkInterfaces();
+app.version(appConfig.version);	
 
-	var addresses = [];
-	utils.each(interfaces, function(interface, name){
-		addresses = addresses.concat(
-						utils.filter(interface, function(node){ 
-							return node.family === "IPv4" && node.internal === false;
-						})
-					);
-	});
-
-	if(addresses.length > 0){
-		return addresses[0].address;
-	}
-};
-
-var startQueenRemote = function(config){
-	var createRemoteQueen = require('../').client,
-		log = console.log.bind(console),
-		debug = log;
-	
-	var queen = createRemoteQueen(onReady, {
-		port: config.port,
-		host: config.host,
-		log: config.quiet? void 0 : log,
-		debug: config.debug? log : void 0
-	});
-
-	queen.on('dead', function(reason){
-		console.log('Exiting because queen is dead' + (reason?" (" + reason + ")": ""));
-		process.exit(0);
-	});
-
-	function onReady(queen){
-		try {
-			global.queen = queen;
-			global.require = require;
-			var context = vm.createContext(global);
-			vm.runInContext(fs.readFileSync(config.script), context);
-		} catch(e) {
-			if (e.name === 'SyntaxError') {
-			  console.error('Syntax error in script file!\n' + e.message);
-			} else if (e.code === 'ENOENT' || e.code === 'EISDIR') {
-			  console.error('Config file does not exist!');
-			} else {
-			  console.error('Invalid file!\n', e);
-			}
-
-			process.exit(1);
-		}
-	};
-};
-
-app.version('0.1.0')	
-
-	
-app.option('-p, --port <n>', 'The port of the remote server', parseInt)
-	.option('-h, --host [hostname]', 'The hostname of the remote server')
-	.option('--scriptPort <n>', 'The port to use when serving scripts to browsers', parseInt)
-	.option('--scriptHost [hostname]', 'The hostname to use when serving scripts to browsers')
+app.option('-h, --host [host]', 'The host to bind the remote server to')
+	.option('-r, --relay [relay]', 'Act as a proxy queen server for other remotes by providing a host for this option')
 	.option('-v, --verbose', 'Whether to log verbosely')
 	.option('-q, --quiet', 'Don\'t output anything to output stream')
 
-app.command("*").action(function(scriptFile){
-	app.script = scriptFile;
-	startQueenRemote(app);
+
+var config = {};
+app.command("*").action(function(filePath){
+	if(~filePath.indexOf("://")){
+		config.script = filePath;
+	} else {
+		config.file = path.resolve(process.cwd(), filePath);
+	}
+});
+
+app.on('--help', function(){
+  console.log('  Examples:');
+  console.log('');
+  console.log('  Run a JavaScript file using a remote queen server, adding in a "queen" global variable:');
+  console.log('     $ queen-remote -h queen.turn.com my-queen-script.js');
+  console.log('');
 });
 
 app.parse(process.argv);
+
+config.host = app.host;
+config.quiet = app.quiet;
+config.verbose = app.verbose;
+config.relay = app.relay;
+
+queenRunner(config);
