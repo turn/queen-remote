@@ -13,17 +13,13 @@ var app = require('commander'),
 app.version(appConfig.version);	
 
 app.option('-h, --host [host]', 'The host to bind the remote server to')
-	.option('-r, --relay [relay]', 'Act as a proxy queen server for other remotes by providing a host for this option')
+	.option('-p, --proxy [host]', 'Sets up this client as a proxy to it\'s server so other clients may connect to this client as if it were a queen server')
 	.option('-v, --verbose', 'Whether to log verbosely')
 	.option('-q, --quiet', 'Don\'t output anything to output stream')
 
 var config = {};
 app.command("*").action(function(filePath){
-	if(~filePath.indexOf("://")){
-		config.script = filePath;
-	} else {
-		config.file = path.resolve(process.cwd(), filePath);
-	}
+	config.module = path.resolve(process.cwd(), filePath);
 });
 
 app.on('--help', function(){
@@ -36,9 +32,13 @@ app.on('--help', function(){
 
 app.parse(process.argv);
 
-config.host = app.host;
+config.remote = app.host;
+config.host = app.proxy;
 config.quiet = app.quiet;
 config.verbose = app.verbose;
-config.relay = app.relay;
 
-queenRunner(queenRemoteClientFactory, config);
+queenRunner(queenRemoteClientFactory, config, function(error){
+	if(error instanceof Error){
+		throw error;
+	}
+});
