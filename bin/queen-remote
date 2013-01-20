@@ -37,8 +37,12 @@ config.host = app.proxy;
 config.quiet = app.quiet;
 config.verbose = app.verbose;
 
-queenRunner(queenRemoteClientFactory, config, function(error){
-	if(error instanceof Error){
-		throw error;
+queenRunner(queenRemoteClientFactory, config, function(queen){
+	if(queen instanceof Error){
+		throw queen; // this is an error object
+	} else {
+		queen.on('dead', function(){
+			process.exit(0);
+		});
 	}
 });
