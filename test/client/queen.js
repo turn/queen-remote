@@ -20,6 +20,7 @@ exports.queen = {
 		this.socket = mock.socket();
 		this.queen = new Queen(this.socket);
 		this.queen.onReady = this.callback;
+		this.api = testedModule.getApi(this.queen);
 		callback();
 	},
 	create: function(test){
@@ -84,21 +85,21 @@ exports.queen = {
 	},
 	kill: function(test){
 		var spy = sinon.spy();
-		this.queen.api.on('dead', spy);
+		this.api.on('dead', spy);
 		this.queen.kill();
 		test.ok(spy.calledOnce);
 		test.done();
 	},
 	createWorkerProvider: function(test){
 		var spy = sinon.spy();
-		this.queen.api.on('workerProvider', spy);
+		this.api.on('workerProvider', spy);
 		this.queen.createWorkerProvider(1, this.TEST_OBJECT);
 		test.ok(spy.firstCall.args[0].id === 1);
 		test.done();
 	},
 	getWorkforce: function(test){
 		var spy = sinon.spy();
-		this.queen.api.on('workforce', spy);
+		this.api.on('workforce', spy);
 		this.queen.getWorkforce(this.TEST_OBJECT);
 		test.ok(spy.calledOnce);
 		test.done();
