@@ -5,7 +5,9 @@ var app = require('commander'),
 	vm = require('vm'),
 	utils = require('../lib/utils.js'),
 	fs = require('fs'),
-	queenRunner = require('../lib/client/runner.js'),
+	queenRemote = require('../'),
+	queenRunner = queenRemote.runner,
+	queenRemoteClientFactory = queenRemote.client,
 	appConfig = require('../package.json');
 
 app.version(appConfig.version);	
@@ -14,7 +16,6 @@ app.option('-h, --host [host]', 'The host to bind the remote server to')
 	.option('-r, --relay [relay]', 'Act as a proxy queen server for other remotes by providing a host for this option')
 	.option('-v, --verbose', 'Whether to log verbosely')
 	.option('-q, --quiet', 'Don\'t output anything to output stream')
-
 
 var config = {};
 app.command("*").action(function(filePath){
@@ -40,4 +41,4 @@ config.quiet = app.quiet;
 config.verbose = app.verbose;
 config.relay = app.relay;
 
-queenRunner(config);
+queenRunner(queenRemoteClientFactory, config);
