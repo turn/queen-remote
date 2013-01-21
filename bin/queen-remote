@@ -19,7 +19,11 @@ app.option('-h, --host [host]', 'The host to bind the remote server to')
 
 var config = {};
 app.command("*").action(function(filePath){
-	config.module = path.resolve(process.cwd(), filePath);
+	if(~filePath.indexOf("://")){
+		config.script = filePath;
+	} else {
+		config.module = path.resolve(process.cwd(), filePath);		
+	}
 });
 
 app.on('--help', function(){
@@ -31,7 +35,6 @@ app.on('--help', function(){
 });
 
 app.parse(process.argv);
-
 config.remote = app.host;
 config.host = app.proxy;
 config.quiet = app.quiet;
