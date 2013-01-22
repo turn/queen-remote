@@ -2,15 +2,16 @@
 
 **Write Queen applications which communicate with a Queen server over TCP.**
 
-This library provides the tooling required to write Queen applications that utilize a remote Queen server.
-This is particularly useful in creating thin-client applications which can harness the full power of Queen. 
-This package also comes with the `queen-remote` executable, allowing you to 
-execute Queen Scripts remotely through a remote Queen Server.
+This library provides the tooling required to write Queen applications which can utilize a remote
+[Queen Server](https://github.com/ozanturgut/queen) as if it were local. This is particularly useful in creating thin-client applications 
+which harness the full power of Queen. This package also comes with the `queen-remote` executable, 
+allowing you to execute Queen Scripts remotely through a remote Queen Server.
 
 ## Running Queen Scripts Remotely
 1. Install queen-remote: `npm install -g queen-remote`
 2. Run your script `queen-remote -h queen.turn.com:9200 http://queenjs.com/server-example.js
->    This will establish a connection to the Queen Server running at queen.turn.com:9200, and execute
+
+This will establish a connection to the Queen Server running at queen.turn.com:9200, and execute
 the server-example.js Queen Script on it with all of it's captured browsers.
 
 ## Command line Options
