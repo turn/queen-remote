@@ -15,6 +15,29 @@ This will establish a connection to the Queen Server running at queen.turn.com:9
 the server-example.js Queen Script on it with all of it's captured browsers.
 
 ## Command line Options
+### ```-h [host]``` (also `--host`)  _port 9200 on the current IP address by default_
+
+The host of the Queen Server to connect to.
+
+```
+// Example
+// Starts queen-remote and connect to a Queen Server running at queen.turn.com:9283
+queen-remote -h queen.turn.com:9283
+```
+
+
+### ```-p [host]``` (also `--proxy`)
+
+Sets up this queen-remote instance to pretend to be a Queen Server which other queen-remote applications
+can connect to. It will act as a proxy to the real Queen Server and relay communications accordingly.
+
+```
+// Example
+// Starts queen-remote and connect to a Queen Server running at queen.turn.com:9283
+// then starts listening on localhost:9122 for other queen-remote instances to connect to this server
+// when they do, it will relay their requests to queen.turn.com:9283
+queen-remote -h queen.turn.com:9283 -p localhost:9122
+```
 
 ### ```[path]``` _queenConfig.js by default_
 
@@ -23,69 +46,23 @@ a Queen script.
 
 ```
 // Example
-// Starts Queen with configuration defined in queenConfig.js 
+// These examples all try to connect to a Queen Server running on localhost:9200
+
+// Starts Queen Remote with configuration defined in queenConfig.js 
 // if it exists in the current directory, or defaults otherwise
-queen
+queen-remote -h localhost:9200
 
-// Starts Queen with a configuration file that is not named queenConfig.js
-queen my-config-file.js
+// Starts Queen Remote with a configuration file that is not named queenConfig.js
+queen-remote -h localhost:9200 my-config-file.js
 
-// Starts Queen with default options and executes the my-queen-script.js when Queen is ready
-queen my-queen-script.js
+// Starts Queen Remote with default options and executes the my-queen-script.js when Queen is ready
+queen-remote -h localhost:9200 my-queen-script.js
 ```
 
 If the file is a [Queen config file](https://github.com/ozanturgut/queen/wiki/Queen-Config-File), it will be used to configure this queen instance.
 
 If the file is a Queen server-side script, queen will disable it's remote server and execute 
 the server-side script.
-
-### ```-h [host]``` (also `--host`)  _port 9200 on all hosts by default_
-
-The host to bind the remote server to. This is the address queen-remote clients will connect to.
-
-```
-// Example
-// Starts queen, listening to port 9283 on host queen.turn.com for 
-// remote connections (assumes queen.turn.com points to this machine
-queen -h queen.turn.com:9283
-```
-
-### ```-c [host]``` (also `--capture`) _[Internal IP Address]:80 by default_
-
-The address to bind the capture server to. Browsers will navigate to the url + "/capture.html" to connect to Queen.
-
-```
-// Example
-// Starts queen, listening to port 4848 on localhost for browsers. This would allow
-// browsers to connect to this Queen Server by navigating to http://localhost:4848
-queen -c localhost:4848
-```
-
-### `-r [host]` (also `--remote`) _Disabled by default_
-
-Allows you to connect to a another Queen server to execute code. Setting this option disables the `-h` and `-c` commands, since one Queen instance can't act both as a client and a server at the same time. 
-
-If the machine you're using this command on doesn't need to start it's own Queen Server, use [`queen-remote`](https://github.com/ozanturgut/queen-remote) instead, it does the same thing for a fraction of the package size (250 KB instead of 18 MB).
-
-```
-// Example
-// Connects to a Queen server running on queen.turn.com, port 9200 and 
-// executes the script at http://queenjs.com/server-example.js
-queen -r queen.turn.com:9200 http://queenjs.com/server-example.js
-
-// Does the exact same thing, without requiring the entire queen package
-queen-remote -h queen.turn.com:9200 http://queenjs.com/server-example.js
-```
-
-### ```--heartbeatInterval <n>``` _60000 milliseconds (60 seconds) by default_
-
-Milliseconds clients have to send a heartbeat until they're considered unresponsive.
-
-```
-// Example
-// Starts queen with heartbeat checks disabled
-queen --heartbeatInterval 0
-```
 
 ### ```-v``` or ```--verbose```
 
