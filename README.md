@@ -9,7 +9,7 @@ allowing you to execute Queen Scripts remotely through a remote Queen Server.
 
 ## Running [Queen Scripts](https://github.com/ozanturgut/queen/wiki/Writing-Queen-Scripts) Remotely
 1. Install queen-remote: `npm install -g queen-remote`
-2. Run your script `queen-remote -h queen.turn.com:9200 http://queenjs.com/server-example.js
+2. Run your script `queen-remote -h queen.turn.com:9200 http://queenjs.com/server-example.js`
 
 This will establish a connection to the Queen Server running at queen.turn.com:9200, and execute
 the server-example.js Queen Script on it with all of it's captured browsers.
