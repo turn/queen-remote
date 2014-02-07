@@ -1,6 +1,6 @@
 {
   "name": "queen-remote",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "Rule browsers remotely, remotely",
   "main": "index.js",
   "dependencies": {
@@ -20,7 +20,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ozanturgut/queen-remote.git"
+    "url": "https://github.com/turn/queen-remote.git"
   },
   "bin": {
     "queen-remote": "./bin/queen-remote"
